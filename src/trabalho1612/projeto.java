@@ -24,10 +24,11 @@ public class projeto {
 		int encerra=0;
 		
 		System.out.println("Programa iniciado.");
-		System.out.println("Insira seu comando(escreva 'help' para lista de comandos) :");
+		
 		
 		while(true)
 		{
+			System.out.println("Insira seu comando(escreva 'help' para lista de comandos) :");
 			String cmd=input.nextLine();
 			
 			switch(cmd)
@@ -36,10 +37,47 @@ public class projeto {
 				System.out.println("Esses são os comandos :");
 				System.out.println("-help : Mostra a lista de comandos.");
 				System.out.println("-encerra : Encerra o programa.");
+				System.out.println("-venda : Informa o programa que uma quantidade de itens foi vendido.");
 				
 				break;
 			case "encerra":
-				encerra=1;
+				encerra=1;	//Aciona variavel de encerramento.
+				break;
+			case "venda":
+				System.out.println("Qual item foi vendido?");
+				while(true)
+				{
+					cmd=input.nextLine();
+					cmd=cmd.toLowerCase();
+					switch(cmd)
+					{
+					case "infantil lisa":
+						
+						encerra=1;	//Aciona variavel de encerramento DESTA REPETICAO.
+						break;
+					case "infantil estampada":
+						
+						encerra=1;	//Aciona variavel de encerramento DESTA REPETICAO.
+						break;
+					case "adulto lisa":
+						
+						encerra=1;	//Aciona variavel de encerramento DESTA REPETICAO.
+						break;
+					case "adulto estampada":
+						
+						encerra=1;	//Aciona variavel de encerramento DESTA REPETICAO.
+						break;
+					default:
+					
+						System.out.println("Item invalido. (pode ser 'infantil' ou 'adulto', com 'lisa' ou 'estampado'.");
+						break;
+					}
+					if(encerra==1)
+					{
+						encerra=0;	// Evita que o programa encerre precocemente.
+						break;
+					}
+				}
 				break;
 			}
 			if(encerra==1)
