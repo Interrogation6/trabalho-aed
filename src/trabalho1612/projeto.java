@@ -8,6 +8,8 @@
 ------------------------------------------------------------*/
 package trabalho1612;
 
+import java.util.Scanner;
+
 public class projeto {
 
 	public static void main(String[] args) {
@@ -18,8 +20,34 @@ public class projeto {
 /*Adulto Lisa*/			{0,0,0,0},
 /*Adulto Estampada*/	{0,0,0,0}};
 		//'QuantVenda' é a quantidade de produtos vendidos.
+		Scanner input = new Scanner(System.in);
+		int encerra=0;
 		
+		System.out.println("Programa iniciado.");
+		System.out.println("Insira seu comando(escreva 'help' para lista de comandos) :");
 		
+		while(true)
+		{
+			String cmd=input.nextLine();
+			
+			switch(cmd)
+			{
+			case "help":
+				System.out.println("Esses são os comandos :");
+				System.out.println("-help : Mostra a lista de comandos.");
+				System.out.println("-encerra : Encerra o programa.");
+				
+				break;
+			case "encerra":
+				encerra=1;
+				break;
+			}
+			if(encerra==1)
+			{
+				break;
+			}
+		}
+		input.close();
 	}
 
 }
