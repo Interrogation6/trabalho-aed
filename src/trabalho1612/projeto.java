@@ -13,12 +13,11 @@ import java.util.Scanner;
 public class projeto {
 
 	public static void main(String[] args) {
-		int matriz[][]= {
-				/*{Estoque,Custo,PreçoVenda,QuantVenda}*/
-/*Infantil Lisa*/		{0,0,0,0},
-/*Infantil Estampada*/	{0,0,0,0},
-/*Adulto Lisa*/			{0,0,0,0},
-/*Adulto Estampada*/	{0,0,0,0}};
+		Produto matriz[]= {
+/*Infantil Lisa*/		new Produto(),
+/*Infantil Estampada*/	new Produto(),
+/*Adulto Lisa*/			new Produto(),
+/*Adulto Estampada*/	new Produto()};
 		//'QuantVenda' é a quantidade de produtos vendidos.
 		Scanner input = new Scanner(System.in);
 		int encerra=0;
@@ -88,4 +87,19 @@ public class projeto {
 		input.close();
 	}
 
+}
+
+class Produto {
+	int estoque;
+	int custo;
+	int preçovenda;
+	int quantvenda;
+	
+	public Produto()
+	{
+		estoque=0;
+		custo=0;
+		preçovenda=0;
+		quantvenda=0;
+	}
 }
