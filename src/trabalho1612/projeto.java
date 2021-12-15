@@ -169,18 +169,21 @@ public class projeto {
 		} else if (tamanho == 4) {
 			tamanhoStr = "adulto estampada";
 		}
-		System.out.print("Digite o valor da mascara: ");
+		System.out.print("Digite o custo da mascara: ");
 		int custo = entrada.nextInt();
 		System.out.print("Digite o quantidade da mascara em estoque: ");
 		int estoque = entrada.nextInt();
-		Produto produto = new Produto();
+		System.out.print("Digite o preço de venda da mascara: ");
+		int preco = entrada.nextInt();
+		/*Produto produto = new Produto();
 		produto.nome = tamanhoStr;
 		produto.custo = custo;
 		produto.estoque = estoque;
+		produto.preçovenda = preco;*/
 
-		fileWriter.write(produto.nome + " ; " + produto.custo + " ; " + produto.estoque + "\n");
+		fileWriter.write(tamanhoStr + " ; " + custo + " ; " + estoque + " ; " + preco + "\n");
 		fileWriter.close();
-		System.out.println("Mascara cadastrada com sucesso!");
+		System.out.println("Máscara cadastrada com sucesso!");
 	}
 
 	public static void listarProdutos(Scanner entrada, File file) throws IOException {
@@ -219,6 +222,7 @@ public class projeto {
 			produto.nome = atributos[0]; 
 			produto.custo = Integer.parseInt(atributos[1]);
 			produto.estoque = Integer.parseInt(atributos[2]);
+			produto.preçovenda = Integer.parseInt(atributos[3]);
 
 			if (produto.nome.equals("infantil lisa")) {
 				produtos[0] = produto;
