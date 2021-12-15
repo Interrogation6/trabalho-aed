@@ -1,7 +1,11 @@
 /*------------------------------------------------------------
 	Autor: Kelvyn Dantas, Arthur Zica e Izabela Fernanda
 	
-	Objetivo do Projeto :
+	Objetivo do Projeto : 	O programa tem como objetivo facilitar o gerenciamento de vendas
+							de máscaras faciais que podem vir em 4 modelos (definido pelo programa).
+							Este gerenciamento envolve a interação do usuário para inserir novas
+							vendas e cadastros além de ler e escrever relatórios de vendas e estoque
+							realizados durante o seu funcionamento.
 
 	Data Inicial : 	10/12/2021 	14:58
 	Ult. Revisão: 	15/12/2021	14:22
