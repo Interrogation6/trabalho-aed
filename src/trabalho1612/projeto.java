@@ -47,7 +47,7 @@ public class projeto {
 					break;
 				case 3:
 					matriz = carregaProdutos(matriz, file); // Chama a função que carrega os produtos do arquivo. - Iza
-					encerra = venda(matriz, input, encerra); // Transformei a opção venda, em uma função. - Iza 
+					venda(matriz, input, encerra); // Transformei a opção venda, em uma função. - Iza 
 					
 					break;
 				case 4:
@@ -74,7 +74,7 @@ public class projeto {
 		input.close();
 	}
 
-	private static int venda(Produto[] matriz, Scanner input, int encerra) throws IOException {
+	private static void venda(Produto[] matriz, Scanner input, int encerra) throws IOException {
 		System.out.println("Qual tipo de máscara foi vendida?");
 		System.out.print("1 - infantil lisa\n2 - infantil estampada\n3 - adulto lisa\n4 - adulto estampada\n"); // Mostra as opções. - Iza
 		while (true) {
@@ -83,36 +83,28 @@ public class projeto {
 			// Troquei as opções do case para os números, para facilitar na hora de escrever - Iza
 			switch (cmd) {
 				case 1:
-
 					quant_query("infantis lisas", matriz[0], input);
-					
-
 					encerra = 1; // Aciona variavel de encerramento DESTA REPETICAO.
+					
 					break;
 				case 2:
-
 					quant_query("infantis estampadas", matriz[1], input);
-					
-
 					encerra = 1; // Aciona variavel de encerramento DESTA REPETICAO.
+					
 					break;
 				case 3:
-
 					quant_query("adultas lisas", matriz[2], input);
-					
-
 					encerra = 1; // Aciona variavel de encerramento DESTA REPETICAO.
+					
 					break;
 				case 4:
-
 					quant_query("adultas estampadas", matriz[3], input);
-					
-
 					encerra = 1; // Aciona variavel de encerramento DESTA REPETICAO.
+					
 					break;
 				default:
-
 					System.out.println("Item inválido.");
+					
 					break;
 			}
 			if (encerra == 1) {
@@ -120,7 +112,6 @@ public class projeto {
 				break;
 			}
 		}
-		return encerra;
 	}
 
 	public static void quant_query(String mascara, Produto prod, Scanner input) throws IOException {
