@@ -89,6 +89,23 @@ public class projeto {
 					}
 				}
 				break;
+			case "relatorio":
+				
+				System.out.println("Comando insuficiente. (Esperava-se uma extensão após 'relatorio', Ex:'relatorio estoque'.)");
+				print_inicial();
+				
+				break;
+			case "relatorio estoque":
+				
+				break;
+			case "relatorio vendas":
+				
+				break;
+			default:
+				
+				print_inicial();
+				
+				break;
 			}
 			if(encerra==1)
 			{
