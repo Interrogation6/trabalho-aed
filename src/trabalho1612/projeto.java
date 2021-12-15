@@ -42,6 +42,7 @@ public class projeto {
 					break;
 				case 2:
 					encerra = 1; // Aciona variavel de encerramento.
+					System.out.println("Programa encerrado.");
 					
 					break;
 				case 3:
@@ -213,11 +214,11 @@ public class projeto {
 
 		String linha = "";
 		while ((linha = leitorBuffer.readLine()) != null) {
-			String[] matriz = linha.split(";"); // Separa a linha em um vetor de strings por ; - Iza
+			String[] atributos = linha.split(" ; "); // Separa a linha em um vetor de strings por ; - Iza
 			Produto produto = new Produto(); 
-			produto.nome = matriz[0]; 
-			produto.custo = Integer.parseInt(matriz[1]);
-			produto.estoque = Integer.parseInt(matriz[2]);
+			produto.nome = atributos[0]; 
+			produto.custo = Integer.parseInt(atributos[1]);
+			produto.estoque = Integer.parseInt(atributos[2]);
 
 			if (produto.nome.equals("infantil lisa")) {
 				produtos[0] = produto;
