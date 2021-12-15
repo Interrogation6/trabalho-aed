@@ -14,7 +14,6 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
-import java.text.DecimalFormat;
 
 public class projeto {
 
@@ -146,9 +145,8 @@ public class projeto {
 			prod.estoque -= quant;
 			prod.quantvenda += quant;
 			
-			DecimalFormat df = new DecimalFormat("0,00");
-			String custo = df.format(prod.custo*prod.quantvenda/100);
-			String venda = df.format(prod.preçovenda * prod.quantvenda/100);
+			String custo = String.format("%.2f",(float)prod.custo*quant/100);
+			String venda = String.format("%.2f",(float)prod.preçovenda*quant/100);
 			
 			System.out.println(quant + " máscaras " + mascara + " vendidas com sucesso!");
 			fileWriter.write("Tipo: "+prod.nome + ";Quantidade: " + quant + ";Estoque atual: " + prod.estoque + ";Custo total: R$" + custo + ";Preço total da venda: R$" + venda + "\n"); // Escreve no arquivo a venda realizada com o seu lucro. - Iza
