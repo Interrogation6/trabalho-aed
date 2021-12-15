@@ -14,25 +14,28 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
+import java.text.DecimalFormat;
 
 public class projeto {
 
 	public static void main(String[] args) throws IOException {
+		System.out.println("Programa iniciado.");
 		Produto matriz[] = {
 				/* Infantil Lisa */ new Produto(),
 				/* Infantil Estampada */ new Produto(),
 				/* Adulto Lisa */ new Produto(),
 				/* Adulto Estampada */ new Produto() };
-		// 'QuantVenda' é a quantidade de produtos vendidos.
+		
 		Scanner input = new Scanner(System.in);
 		int encerra = 0;
+		
 		File file = new File("src/estoque.txt"); // Cria um arquivo para armazenar os dados do estoque das máscaras. - Iza.
-		System.out.println("Programa iniciado.");
+		matriz=atualiza_matriz(matriz,file);
+		
 
 		while (true) {
 			print_inicial(); // Chama a função que imprime o menu inicial direto, sem a necessidade de digitar o help. - Iza 
 			int cmd = input.nextInt();
-
 
 			// Troquei as opções do case para os nÃºmeros, para facilitar na hora de escrever. - Iza
 			switch (cmd) {
@@ -48,10 +51,11 @@ public class projeto {
 				case 3:
 					matriz = atualiza_matriz(matriz, file); // Chama a função que carrega os produtos do arquivo. - Iza
 					venda(matriz, input); // Transformei a opção venda, em uma função. - Iza 
+					atualiza_estoque(matriz, file);			// Atualiza o estoque.txt com os novos parametros. (após a venda.)
 					
 					break;
 				case 4:
-					cadastrarProduto(input, file); // Chama a função que cadastra os produtos. - Iza
+					cadastrarProduto(matriz,input, file); // Chama a função que cadastra os produtos. - Iza
 					
 					break;
 				case 5:
@@ -59,7 +63,7 @@ public class projeto {
 					
 					break;
 				case 6:
-						listarVendas(input);
+						listarVendas();
 						
 					break;
 				default:
@@ -123,7 +127,7 @@ public class projeto {
 
 /*	Nome: quant_query
  * 	Descrição: 	Inicia o processo de inserção de dados sobre a venda 
- * 				de uma quantia de produtos.
+ * 				de uma quantia de produtos. Também registra esta venda no arquivo venda.txt.
  * 
  * 	Inputs:		String 'mascara'- Refere-se ao nome do tipo de mascara vendida.
  * 				Produto 'prod'	- Elemento específico da matriz referente a mascara vendida.
@@ -141,8 +145,13 @@ public class projeto {
 		} else {
 			prod.estoque -= quant;
 			prod.quantvenda += quant;
+			
+			DecimalFormat df = new DecimalFormat("0,00");
+			String custo = df.format(prod.custo*prod.quantvenda/100);
+			String venda = df.format(prod.preçovenda * prod.quantvenda/100);
+			
 			System.out.println(quant + " máscaras " + mascara + " vendidas com sucesso!");
-			fileWriter.write(prod.nome + ";" + prod.quantvenda + ";" + prod.estoque + ";" + prod.custo + ";" + prod.custo * prod.quantvenda + "\n"); // Escreve no arquivo a venda realizada com o seu lucro. - Iza
+			fileWriter.write("Tipo: "+prod.nome + ";Quantidade: " + quant + ";Estoque atual: " + prod.estoque + ";Custo total: R$" + custo + ";Preço total da venda: R$" + venda + "\n"); // Escreve no arquivo a venda realizada com o seu lucro. - Iza
 		}
 		fileWriter.close();
 
@@ -168,41 +177,41 @@ public class projeto {
  * 	Descrição:	Insere novos atributos de produtos **atualizando a 
  * 				matriz interna** e seu arquivo referente.
  * 
- * 	Inputs:		Scanner 'input'	- Parametro usado para a interação do usuário pelo teclado.
- * 				File 'file'		- Arquivo referência a ser atualizado com as novas informações.
+ * 	Inputs:		Produto[] 'matriz'	- Matriz a ser lida para atualizar o novo .txt gerado
+ * 				Scanner 'input'		- Parametro usado para a interação do usuário pelo teclado.
+ * 				File 'file'			- Arquivo referência a ser atualizado com as novas informações.
  */
-	public static void cadastrarProduto(Scanner input, File file) throws IOException {
-		FileWriter fileWriter = new FileWriter(file, true); // Cria arquivo de venda. -  Iza
+	public static void cadastrarProduto(Produto[] matriz, Scanner input, File file) throws IOException {
+		//FileWriter fileWriter = new FileWriter(file, true); // Cria arquivo de venda. -  Iza
 		System.out.println("Essa são as opções de produtos:");
 		System.out.print("1 - infantil lisa\n2 - infantil estampada\n3 - adulto lisa\n4 - adulto estampada\n");
 		int tamanho = input.nextInt();
-		String tamanhoStr = "";
+		Produto produto = new Produto();
 		if (tamanho == 1) {
-			tamanhoStr = "infantil lisa";
+			produto.nome = "infantil lisa";
 		} else if (tamanho == 2) {
-			tamanhoStr = "infantil estampada";
+			produto.nome = "infantil estampada";
 		} else if (tamanho == 3) {
-			tamanhoStr = "adulto lisa";
+			produto.nome = "adulto lisa";
 		} else if (tamanho == 4) {
-			tamanhoStr = "adulto estampada";
+			produto.nome = "adulto estampada";
 		}
 		System.out.print("Digite o custo da mascara: ");
-		int custo = input.nextInt();
+		produto.custo = (int)(input.nextDouble()*100);
 		System.out.print("Digite o quantidade da mascara em estoque: ");
-		int estoque = input.nextInt();
+		produto.estoque = input.nextInt();
 		System.out.print("Digite o preço de venda da mascara: ");
-		int preco = input.nextInt();
-		/*Produto produto = new Produto();
-		produto.nome = tamanhoStr;
-		produto.custo = custo;
-		produto.estoque = estoque;
-		produto.preçovenda = preco;*/
+		produto.preçovenda = (int)(input.nextDouble()*100);
+		
+		matriz[tamanho-1]=produto;
+		atualiza_estoque(matriz, file);
 
-		fileWriter.write(tamanhoStr + " ; " + custo + " ; " + estoque + " ; " + preco + "\n");
-		fileWriter.close();
 		System.out.println("Máscara cadastrada com sucesso!");
 	}
 
+/*	Nome: listarProdutos
+ * 	Descrição:	 
+ */
 	public static void listarProdutos(Scanner entrada, File file) throws IOException {
 		FileReader leitor = new FileReader(file);
 		BufferedReader leitorBuffer = new BufferedReader(leitor);
@@ -216,12 +225,16 @@ public class projeto {
 		leitorBuffer.close();
 	}
 
-	public static void listarVendas(Scanner entrada) throws IOException {
+/*	Nome: listarVendas
+ * 	Descrição:	Printar na tela as vendas feitas salvas no arquivo venda.txt 
+ * 				em um formato semelhante à uma nota fiscal.
+ */
+	public static void listarVendas() throws IOException {
 		FileReader leitor = new FileReader(new File ("src/venda.txt")); 
 		BufferedReader leitorBuffer = new BufferedReader(leitor);
 
 		String linha = "";
-		System.out.println("Essas são as vendas realizadas. (nome, quantidade vendida, estoque, custo, lucro)");
+		System.out.println("Essas são as vendas realizadas. (nome, quantidade vendida, estoque atual, custo da venda, lucro da venda)");
 		while ((linha = leitorBuffer.readLine()) != null) {
 			System.out.println(linha.replace(";", " / "));
 		}
@@ -244,11 +257,17 @@ public class projeto {
 		while ((linha = leitorBuffer.readLine()) != null) {
 			String[] atributos = linha.split(" ; "); // Separa a linha em um vetor de strings por ; - Iza
 			Produto produto = new Produto(); 
-			produto.nome = atributos[0]; 
-			produto.custo = Integer.parseInt(atributos[1]);
-			produto.estoque = Integer.parseInt(atributos[2]);
-			produto.preçovenda = Integer.parseInt(atributos[3]);
-
+			if(atributos.length!=5)	{
+				System.err.println("Arquivo estoque.txt formatado incorretamente, importação ignorada.");
+			}
+			else {
+				produto.nome = atributos[0]; 
+				produto.custo = Integer.parseInt(atributos[1]);
+				produto.estoque = Integer.parseInt(atributos[2]);
+				produto.preçovenda = Integer.parseInt(atributos[3]);
+				produto.quantvenda = Integer.parseInt(atributos[4]);
+			}
+			
 			if (produto.nome.equals("infantil lisa")) {
 				produtos[0] = produto;
 			} else if (produto.nome.equals("infantil estampada")) {
@@ -263,6 +282,30 @@ public class projeto {
 		leitorBuffer.close();
 		return produtos;
 	}
+
+/*	Nome: atualiza_estoque
+ * 	Descrição:	Atualiza o arquivo 'file' com os valores armazenados dentro do vetor 'produtos'.
+ * 
+ * 	Inputs:		Produto[] 'produtos'	- Vetor que contem os valores a serem armazenados.
+ * 				File 'file'				- Arquivo a ser salvo as informações
+ */
+	public static void atualiza_estoque(Produto[] produtos, File file) throws IOException {
+		FileWriter fileWriter = new FileWriter(file);
+		for(int i=0;i<produtos.length;i++) {
+			String tamanhoStr = "";
+			if (i == 0) {
+				tamanhoStr = "infantil lisa";
+			} else if (i == 1) {
+				tamanhoStr = "infantil estampada";
+			} else if (i == 2) {
+				tamanhoStr = "adulto lisa";
+			} else if (i == 3) {
+				tamanhoStr = "adulto estampada";
+			}
+			fileWriter.write(tamanhoStr + " ; " + produtos[i].custo + " ; " + produtos[i].estoque + " ; " + produtos[i].preçovenda +" ; " + produtos[i].quantvenda + "\n");			
+		}
+		fileWriter.close();
+	}
 }
 
 class Produto {
@@ -273,6 +316,7 @@ class Produto {
 	int quantvenda;
 
 	public Produto() {
+		nome = "";
 		estoque = 0;
 		custo = 0;
 		preçovenda = 0;
