@@ -46,8 +46,8 @@ public class projeto {
 					
 					break;
 				case 3:
-					matriz = carregaProdutos(matriz, file); // Chama a função que carrega os produtos do arquivo. - Iza
-					venda(matriz, input, encerra); // Transformei a opção venda, em uma função. - Iza 
+					matriz = atualiza_matriz(matriz, file); // Chama a função que carrega os produtos do arquivo. - Iza
+					venda(matriz, input); // Transformei a opção venda, em uma função. - Iza 
 					
 					break;
 				case 4:
@@ -73,10 +73,17 @@ public class projeto {
 		}
 		input.close();
 	}
-
-	private static void venda(Produto[] matriz, Scanner input, int encerra) throws IOException {
+	
+/*	Nome: venda
+ * 	Descrição:	Inicia o processo de venda de produtos.
+ * 	
+ * 	Inputs:		Produto[] 'matriz'	- Parametro passado para ser usado pela função secundária 'quant_query'.
+ * 				Scanner 'input'		- Parametro usado para a interação do usuário pelo teclado.
+ */
+	private static void venda(Produto[] matriz, Scanner input) throws IOException {
 		System.out.println("Qual tipo de máscara foi vendida?");
 		System.out.print("1 - infantil lisa\n2 - infantil estampada\n3 - adulto lisa\n4 - adulto estampada\n"); // Mostra as opções. - Iza
+		int quebra=0;
 		while (true) {
 			int cmd = input.nextInt();
 
@@ -84,22 +91,22 @@ public class projeto {
 			switch (cmd) {
 				case 1:
 					quant_query("infantis lisas", matriz[0], input);
-					encerra = 1; // Aciona variavel de encerramento DESTA REPETICAO.
+					quebra = 1; // Aciona variavel de encerramento DESTA REPETICAO.
 					
 					break;
 				case 2:
 					quant_query("infantis estampadas", matriz[1], input);
-					encerra = 1; // Aciona variavel de encerramento DESTA REPETICAO.
+					quebra = 1; // Aciona variavel de encerramento DESTA REPETICAO.
 					
 					break;
 				case 3:
 					quant_query("adultas lisas", matriz[2], input);
-					encerra = 1; // Aciona variavel de encerramento DESTA REPETICAO.
+					quebra = 1; // Aciona variavel de encerramento DESTA REPETICAO.
 					
 					break;
 				case 4:
 					quant_query("adultas estampadas", matriz[3], input);
-					encerra = 1; // Aciona variavel de encerramento DESTA REPETICAO.
+					quebra = 1; // Aciona variavel de encerramento DESTA REPETICAO.
 					
 					break;
 				default:
@@ -107,13 +114,21 @@ public class projeto {
 					
 					break;
 			}
-			if (encerra == 1) {
-				encerra = 0; // Evita que o programa encerre precocemente.
+			if (quebra == 1) {
+				quebra = 0; // Quebra o loop indefinitivo.
 				break;
 			}
 		}
 	}
 
+/*	Nome: quant_query
+ * 	Descrição: 	Inicia o processo de inserção de dados sobre a venda 
+ * 				de uma quantia de produtos.
+ * 
+ * 	Inputs:		String 'mascara'- Refere-se ao nome do tipo de mascara vendida.
+ * 				Produto 'prod'	- Elemento específico da matriz referente a mascara vendida.
+ * 				Scanner 'input'	- Parametro usado para a interação do usuário pelo teclado.
+ */
 	public static void quant_query(String mascara, Produto prod, Scanner input) throws IOException {
 		System.out.println("Quantas máscaras " + mascara + " foram vendidas?");
 		FileWriter fileWriter = new FileWriter(new File ("src/venda.txt"), true); // Cria arquivo de venda. -  Iza
@@ -132,7 +147,11 @@ public class projeto {
 		fileWriter.close();
 
 	}
-
+/*	Nome: print_inicial
+ * 	Descrição: 	Printa na tela os comandos disponíveis para o usuário, 
+ * 				tipicamente usado quando o usuário finaliza uma função 
+ * 				ou insere um comando inválido. 
+ */
 	public static void print_inicial() { // Imprime o menu inicial. - Iza
 		System.out.println("");
 		System.out.println("Insira seu comando :");
@@ -145,11 +164,18 @@ public class projeto {
 
 	}
 
-	public static void cadastrarProduto(Scanner entrada, File file) throws IOException {
+/*	Nome: cadastrarProduto
+ * 	Descrição:	Insere novos atributos de produtos **atualizando a 
+ * 				matriz interna** e seu arquivo referente.
+ * 
+ * 	Inputs:		Scanner 'input'	- Parametro usado para a interação do usuário pelo teclado.
+ * 				File 'file'		- Arquivo referência a ser atualizado com as novas informações.
+ */
+	public static void cadastrarProduto(Scanner input, File file) throws IOException {
 		FileWriter fileWriter = new FileWriter(file, true); // Cria arquivo de venda. -  Iza
 		System.out.println("Essa são as opções de produtos:");
 		System.out.print("1 - infantil lisa\n2 - infantil estampada\n3 - adulto lisa\n4 - adulto estampada\n");
-		int tamanho = entrada.nextInt();
+		int tamanho = input.nextInt();
 		String tamanhoStr = "";
 		if (tamanho == 1) {
 			tamanhoStr = "infantil lisa";
@@ -161,11 +187,11 @@ public class projeto {
 			tamanhoStr = "adulto estampada";
 		}
 		System.out.print("Digite o custo da mascara: ");
-		int custo = entrada.nextInt();
+		int custo = input.nextInt();
 		System.out.print("Digite o quantidade da mascara em estoque: ");
-		int estoque = entrada.nextInt();
+		int estoque = input.nextInt();
 		System.out.print("Digite o preço de venda da mascara: ");
-		int preco = entrada.nextInt();
+		int preco = input.nextInt();
 		/*Produto produto = new Produto();
 		produto.nome = tamanhoStr;
 		produto.custo = custo;
@@ -201,8 +227,16 @@ public class projeto {
 		}
 		leitorBuffer.close();
 	}
-
-	public static Produto[] carregaProdutos (Produto[] produtos, File file) throws IOException {
+	
+/*	Nome: atualiza_matriz
+ * 	Descrição: Atualiza variável 'produtos' através de atributos escritos em um arquivo .txt 'file'.
+ * 
+ * 	Inputs: Produto[] 'produtos' - Matriz referência, contém os valores a serem alterados.
+ * 			File 'file' 		 -  Arquivo .txt onde estão armazenados valores referentes à matriz.
+ * 
+ * 	Output: Produto[] 			 - Matriz atualizada com os valores importados.
+ */
+	public static Produto[] atualiza_matriz (Produto[] produtos, File file) throws IOException {
 		FileReader leitor = new FileReader(file);
 		BufferedReader leitorBuffer = new BufferedReader(leitor);
 
